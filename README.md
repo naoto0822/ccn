@@ -1,5 +1,7 @@
 # Claude Code Notifier (ccn)
 
+⚠️ **Experimental** - This tool is in early development and may have bugs or breaking changes.
+
 Claude Code Notifier is a command-line tool that integrates with Claude Code hooks to send macOS notifications with editor jump functionality.
 
 **Platform Support**: macOS only  

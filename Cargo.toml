@@ -1,6 +1,6 @@
 [package]
 name = "ccn"
-version = "0.1.0"
+version = "0.1.1"
 edition = "2021"
 authors = ["naoto0822"]
 description = "Claude Code Notifier - Send macOS notifications with editor jump functionality for Claude Code hooks"
