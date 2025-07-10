@@ -2,6 +2,14 @@
 name = "ccn"
 version = "0.1.0"
 edition = "2021"
+authors = ["naoto0822"]
+description = "Claude Code Notifier - Send macOS notifications with editor jump functionality for Claude Code hooks"
+readme = "README.md"
+homepage = "https://github.com/naoto0822/ccn"
+repository = "https://github.com/naoto0822/ccn"
+license = "MIT"
+keywords = ["claude-code", "notification", "macos", "vscode", "cursor"]
+categories = ["command-line-utilities", "development-tools"]
 
 [dependencies]
 serde = { version = "1.0", features = ["derive"] }
