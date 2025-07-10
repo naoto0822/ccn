@@ -2,12 +2,22 @@
 
 Claude Code Notifier is a command-line tool that integrates with Claude Code hooks to send macOS notifications with editor jump functionality.
 
+**Platform Support**: macOS only  
+**Editor Support**: VS Code and Cursor only
+
 ## Features
 
 - Send notifications via terminal-notifier when Claude Code hooks are triggered
 - Click notifications to jump to the current project directory in VS Code or Cursor
 - Support for multiple editors (VS Code and Cursor)
 - Process JSON input from Claude Code hooks with session information
+
+## Requirements
+
+- macOS
+- terminal-notifier
+- VS Code or Cursor editor (for jump functionality)
+- Claude Code
 
 ## Installation
 
@@ -16,17 +26,22 @@ Claude Code Notifier is a command-line tool that integrates with Claude Code hoo
 brew install terminal-notifier
 ```
 
-2. Build the ccn binary:
+2. Configure macOS notification settings:
+  - Open System Preferences → Notifications
+  - Find and select terminal-notifier
+  - Check "Allow Notifications"
+
+3. Install ccn:
 ```bash
-cargo build --release
+cargo install ccn
 ```
 
-## Usage
+## Debug
 
 The tool is designed to be used as a Claude Code hook that receives JSON input via stdin:
 
 ```bash
-echo '{"session_id":"123","transcript_path":"/path","hook_event_name":"Stop","message":"Task completed"}' | ./target/release/ccn
+echo '{"session_id":"123","transcript_path":"/path","hook_event_name":"Stop"}' | ccn
 ```
 
 ### Command Line Options
@@ -35,40 +50,48 @@ echo '{"session_id":"123","transcript_path":"/path","hook_event_name":"Stop","me
 
 ```bash
 # Use with Cursor
-echo '{"session_id":"123","transcript_path":"/path","hook_event_name":"Notification","message":"Hello"}' | ./target/release/ccn -t cursor
+echo '{"session_id":"123","transcript_path":"/path","hook_event_name":"Notification","message":"Hello"}' | ccn -t cursor
 
 # Use with VS Code (default)
-echo '{"session_id":"123","transcript_path":"/path","hook_event_name":"Stop"}' | ./target/release/ccn
+echo '{"session_id":"123","transcript_path":"/path","hook_event_name":"Stop"}' | ccn
 ```
 
 ### Hook Events
 
 The tool handles different hook event types:
 - `"Notification"`: Shows the provided message or event name
-- `"Stop"`: Shows "完了しました" (Completed in Japanese)
+- `"Stop"`: Shows "Completed"
 - Other events: Shows the event name
 
 ## Claude Code Integration
 
-Configure Claude Code hooks in your settings to pipe JSON data to ccn:
+Configure Claude Code hooks in your settings to use ccn:
 
 ```json
 {
-  "hooks": {
-    "post_tool": "/path/to/ccn/example_hook.sh"
+"hooks": {
+  "Notification": [
+    {
+      "matcher": "",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "ccn -t cursor"
+          }
+        ]
+      }
+    ],
+    "Stop": [
+      {
+        "matcher": "",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "ccn -t cursor"
+          }
+        ]
+      }
+    ]
   }
 }
 ```
-
-The hook receives JSON input with:
-- `session_id`: Current Claude Code session ID
-- `transcript_path`: Path to conversation transcript
-- `hook_event_name`: Type of event (e.g., "Stop", "Notification")
-- `message`: Optional message content
-
-## Requirements
-
-- macOS
-- terminal-notifier
-- VS Code or Cursor editor (for jump functionality)
-- Claude Code

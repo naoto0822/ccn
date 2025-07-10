@@ -80,7 +80,7 @@ fn send_notification(hook_input: &HookInput, editor_type: &EditorType) {
     
     let message = match hook_input.hook_event_name.as_str() {
         "Notification" => hook_input.message.clone().unwrap_or_else(|| hook_input.hook_event_name.clone()),
-        "Stop" => "完了しました".to_string(),
+        "Stop" => "Completed".to_string(),
         _ => hook_input.hook_event_name.clone(),
     };
     
