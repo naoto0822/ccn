@@ -69,10 +69,10 @@ Configure Claude Code hooks in your settings to use ccn:
 
 ```json
 {
-"hooks": {
-  "Notification": [
-    {
-      "matcher": "",
+  "hooks": {
+    "Notification": [
+      {
+        "matcher": "",
         "hooks": [
           {
             "type": "command",
